@@ -14,3 +14,16 @@ class CustomUserAdmin(UserAdmin):
     # fieldsets = UserAdmin.fieldsets + ('champ_personnel', 'firs_name', 'last_name',')
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
+
+""" variante avec le decorator
+@admin.register(CustomUser)
+class CustomUserAdmin(UserAdmin):
+    model = CustomUser
+"""
+
+"""NOTE:
+    pour utiliser les champs du formulaire de plus de 2 models, 
+    il faut utiliser dango nested admin
+    https://django-nested-admin.readthedocs.io/en/latest/
+"""
