@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 import environ
 from pathlib import Path
+from django.contrib.messages import constants as messages_constants
 
 # initialize environnement variable
 env = environ.Env()
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,11 @@ STATICFILES_DIRS = [
 # users upload
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
+
+# custom user definition
+AUTH_USER_MODEL = "accounts.CustomUser"
+
+
+MESSAGE_TAGS = {
+    messages_constants.ERROR: "danger",
+}
