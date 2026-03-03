@@ -47,7 +47,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    # application declaration
     'accounts',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +138,10 @@ MESSAGE_TAGS = {
 }
 # email configuration: output to django development console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Allauth settings
+ACCOUNT_LOGIN_METHODS = ("username", "email")
+# désactive vérification par email par défaut
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+# Cas d'utilisation d'un formulaire avec champs personalisés
+# ACCOUNT_FORMS = {'signup': 'accounts.forms.CustomSignupForm'}
+
