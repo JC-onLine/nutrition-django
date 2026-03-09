@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # application declaration
     'accounts',
     'core',
+    'nutrition'
 ]
 
 MIDDLEWARE = [
