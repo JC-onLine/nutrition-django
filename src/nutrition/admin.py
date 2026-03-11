@@ -1,5 +1,23 @@
 from django.contrib import admin
-from .models import Ingredient
+from .models import Ingredient, Plate, PlateIngredient
 
 
-admin.site.register(Ingredient)
+class PlateIngredientInline(admin.TabularInline):
+    model = PlateIngredient
+    extra = 0
+    can_delete = True
+
+
+@admin.register(Ingredient)
+class AdminIngredient(admin.ModelAdmin):
+    list_display = ("name", "food_type", "diet_type", "default_unit")
+    search_fields = ("name", )
+    list_filter = ("food_type", "diet_type", "default_unit")
+    list_editable = ("default_unit", )
+
+
+@admin.register(Plate)
+class AdminPlate(admin.ModelAdmin):
+    list_display = ("name", "user")
+    search_fields = ("name", "user__email")
+    inlines = [PlateIngredientInline] # Modèle PlateIngredient
