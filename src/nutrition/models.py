@@ -119,3 +119,10 @@ class PlateIngredient(models.Model):
             return self.quantity
         else:  # sinon pièce
             return self.quantity * self.ingredient.average_piece_weight
+
+    def display_unit(self):
+        if self.ingredient.default_unit == QuantityUnit.GRAM:
+            return "g"
+        else:
+            return "p"
+    
