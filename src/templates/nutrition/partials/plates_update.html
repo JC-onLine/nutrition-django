@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Modifier l'assiette</button>
+    </form>
+    <a href="{% url 'nutrition:user_plates' %}">Retour à la liste des assiettes</a>
+</body>
+</html>

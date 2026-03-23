@@ -1,8 +1,7 @@
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.urls import reverse
-
+from django.urls import reverse, reverse_lazy
 from .models import Plate
 
 
@@ -12,12 +11,16 @@ class PlatesCreateView(LoginRequiredMixin, CreateView):
     template_name = "nutrition/user_plates_create.html"
     fields = ["name"]
 
+    def get_user_name(self, request):
+        return request.user.pk
+
     def form_valid(self, form):
+        form.instance.user = self.get_user_name(self.request)
         form.instance.name = form.cleaned_data['name']
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("nutrition:user_plates_detail",
+        return reverse("nutrition:plates_detail",
                        args=[self.object.pk])
 
     def get_context_data(self, **kwargs):
@@ -65,11 +68,33 @@ class PlatesDetailView(LoginRequiredMixin, DetailView):
 
 # ==== Plate UpdateView ====
 class PlatesUpdateView(LoginRequiredMixin, UpdateView):
-    ...
+    model = Plate
+    template_name = "nutrition/user_plates_update.html"
+    fields = ["name"]
+
+    def form_valid(self, form):
+        form.instance.name = form.cleaned_data['name']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("nutrition:plates_detail",
+                       args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Modification d'une nouvelle assiette"
+        return context
+
 
 
 # ==== Plate DeleteView ====
 class PlatesDeleteView(LoginRequiredMixin, DeleteView):
-    ...
+    model = Plate
+    context_object_name = "plate"
+    template_name = "nutrition/user_plates_delete.html"
+    success_url = reverse_lazy("nutrition:user_plates")
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Suppression de l'assiette"
+        return context

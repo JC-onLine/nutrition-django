@@ -5,7 +5,7 @@
     <title>Détails</title>
 </head>
 <body>
-    <h1>{{ title }}: {{ plate.name }}</h1>
+    <h1>{{ title }}: {{ plate.name }} de {{ plate.user }}</h1>
     {% if plate.ingredients.exists %}
         <h2>Données de la fiche</h2>
         <ul>

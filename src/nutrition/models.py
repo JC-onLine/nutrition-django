@@ -58,6 +58,7 @@ class Plate(models.Model):
 
     class Meta:
         verbose_name = "Plat"
+        ordering = ['name',] # order by name and NO PYTEST WARNING
 
     def __str__(self):
         return f"{self.name} - {self.user}"

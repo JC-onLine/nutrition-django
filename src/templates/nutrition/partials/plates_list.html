@@ -7,7 +7,7 @@
                     <div class="card-header bg-success-subtle">
                         <h5 class="card-title mb-0 text-success">{{ plate.name }}</h5>
                         <small class="text-muted">
-                            Créée le {{ plate.created_at|date:"d/m/Y à H:i" }}
+                            Créée le {{ plate.created_at|date:"d/m/Y à H:i" }} par {{ plate.user }}
                         </small>
                     </div>
                     <div class="card-body">
@@ -81,7 +81,7 @@
                                class="btn btn-outline-success btn-sm">Voir</a>
                             <a href="{% url 'nutrition:plates_update' plate.pk %}"
                                class="btn btn-outline-primary btn-sm">Modifier</a>
-                            <a href=""
+                            <a href="{% url 'nutrition:plates_delete' plate.pk %}"
                                class="btn btn-outline-danger btn-sm">Supprimer</a>
                         </div>
                         <small class="text-muted d-block mt-2 text-center">
