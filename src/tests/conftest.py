@@ -1,17 +1,39 @@
 import pytest
 from decimal import Decimal
 from django.contrib.auth import get_user_model
+# application models
 from nutrition.models import Ingredient, Plate, PlateIngredient
 from nutrition.choices import QuantityUnit, FoodType, DietType
-
+# instance de la classe User
 User = get_user_model()
 
 
 @pytest.fixture
-def user1(): # user1 est un fixture qui peut s'appuyer sur d'autres fixtures'
+def user1(): # user1 est une fixture qui peut s'appuyer sur d'autres fixtures'
     return  User.objects.create_user(username="user1",
                                      email="test@example.com",
                                      password="motdepasse123456")
+
+
+@pytest.fixture
+def user2():
+    return User.objects.create_user(username="user2",
+                                    email="test2@example.com",
+                                    password="motdepasse123456")
+
+
+@pytest.fixture
+def plates_user1(user1):
+    plate1 = Plate.objects.create(user=user1, name="Plat 1 user1 poulet")
+    plate2 = Plate.objects.create(user=user1, name="Plat 2 user1")
+    return [plate1, plate2]
+
+
+@pytest.fixture
+def plates_user2(user2):
+    plate1 = Plate.objects.create(user=user2, name="Plat 1 user2")
+    plate2 = Plate.objects.create(user=user2, name="Plat 2 user2")
+    return [plate1, plate2]
 
 
 @pytest.fixture
