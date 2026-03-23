@@ -1,9 +1,14 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 from .models import Plate
+
+
+# ==== Plate CreateView ====
+class PlatesCreateView(LoginRequiredMixin, CreateView):
+    ...
 
 
 # ==== Plate ListView ====
@@ -28,3 +33,20 @@ class PlatesListView(LoginRequiredMixin, ListView):
         if self.request.headers.get("HX-Request"):
             return ["nutrition/partials/plates_list.html"]
         return [self.template_name]
+
+
+# ==== Plate DetailView ====
+class PlatesDetailView(LoginRequiredMixin, DetailView):
+    ...
+
+
+# ==== Plate UpdateView ====
+class PlatesUpdateView(LoginRequiredMixin, UpdateView):
+    ...
+
+
+# ==== Plate DeleteView ====
+class PlatesDeleteView(LoginRequiredMixin, DeleteView):
+    ...
+
+
