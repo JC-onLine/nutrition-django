@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails</title>
+</head>
+<body>
+    <h1>{{ title }}: {{ plate.name }}</h1>
+    {% if plate.ingredients.exists %}
+        <h2>Données de la fiche</h2>
+        <ul>
+                <li>Utilisateur: {{ plate.user }} </li>
+                <li>Nom: {{ plate.name }} </li>
+                <li>Date création.: {{ plate.created_at }} </li>
+                <li>Date modif.: {{ plate.updated_at }} </li>
+        </ul>
+        <h2>Données nutritionnelles</h2>
+        {% with nutritional_profile=plate.nutritional_profile %}
+            <ul>
+            {% for key, value in nutritional_profile.items %}
+                <li>{{ key }}: {{ value }}</li>
+            {% endfor %}
+            </ul>
+        {% endwith %}
+    {% else %}
+        <p class="text-muted small">Aucun ingrédient ajouté</p>
+    {% endif %}
+    <a href="{% url 'nutrition:user_plates' %}">Retour à la liste</a>
+</body>
+</html>

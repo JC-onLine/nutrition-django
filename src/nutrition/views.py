@@ -1,14 +1,30 @@
-from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.urls import reverse
 
 from .models import Plate
 
 
 # ==== Plate CreateView ====
 class PlatesCreateView(LoginRequiredMixin, CreateView):
-    ...
+    model = Plate
+    template_name = "nutrition/user_plates_create.html"
+    fields = ["name"]
+
+    def form_valid(self, form):
+        form.instance.name = form.cleaned_data['name']
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("nutrition:user_plates_detail",
+                       args=[self.object.pk])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Création d'une nouvelle assiette"
+        return context
+
 
 
 # ==== Plate ListView ====
@@ -37,7 +53,14 @@ class PlatesListView(LoginRequiredMixin, ListView):
 
 # ==== Plate DetailView ====
 class PlatesDetailView(LoginRequiredMixin, DetailView):
-    ...
+    model = Plate
+    template_name = "nutrition/user_plates_detail.html"
+    context_object_name = "plate"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Détails de l'assiette"
+        return context
 
 
 # ==== Plate UpdateView ====

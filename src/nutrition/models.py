@@ -125,4 +125,3 @@ class PlateIngredient(models.Model):
             return "g"
         else:
             return "p"
-    
