@@ -46,7 +46,7 @@ class PlatesListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(
                 Q(name__icontains=search_query) | Q(ingredients__ingredient__name__icontains=search_query)).distinct()
 
-        return queryset
+        return queryset.order_by("-created_at")
 
     def get_template_names(self):
         if self.request.headers.get("HX-Request"):
