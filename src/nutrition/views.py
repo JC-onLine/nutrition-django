@@ -39,12 +39,14 @@ class PlatesListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
 
-        queryset = Plate.objects.filter(user=self.request.user).prefetch_related("ingredients__ingredient")
+        queryset = Plate.objects.filter(
+            user=self.request.user).prefetch_related("ingredients__ingredient")
 
         search_query = self.request.GET.get("search", "").strip()
         if search_query:
             queryset = queryset.filter(
-                Q(name__icontains=search_query) | Q(ingredients__ingredient__name__icontains=search_query)).distinct()
+                Q(name__icontains=search_query) |
+                Q(ingredients__ingredient__name__icontains=search_query)).distinct()
 
         return queryset.order_by("-created_at")
 
