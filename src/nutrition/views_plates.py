@@ -38,7 +38,6 @@ class PlatesListView(LoginRequiredMixin, ListView):
     paginate_by = 2
 
     def get_queryset(self):
-
         queryset = Plate.objects.filter(
             user=self.request.user).prefetch_related("ingredients__ingredient")
 
