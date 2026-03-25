@@ -36,8 +36,10 @@ class Ingredient(models.Model):
         verbose_name="Lipides pour 100g", default=0.00)
     average_piece_weight = models.PositiveIntegerField(
         verbose_name="Poids moyen par pièce (g)", default=0)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Créé le")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Mis à jour le")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Créé le")
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Mis à jour le")
 
     class Meta:
         verbose_name = "Ingrédient"
@@ -63,10 +65,15 @@ class Ingredient(models.Model):
 
 
 class Plate(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Utilisateur", related_name="plates")
-    name = models.CharField(max_length=100, verbose_name="Nom du plat")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Créé le")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Mis à jour le")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Utilisateur", related_name="plates")
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Nom du plat")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Créé le")
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Mis à jour le")
 
     class Meta:
         verbose_name = "Plat"
@@ -100,9 +107,14 @@ class Plate(models.Model):
 
 
 class PlateIngredient(models.Model):
-    plate = models.ForeignKey(Plate, on_delete=models.CASCADE, related_name="ingredients", verbose_name="Plat")
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, verbose_name="Ingrédient")
-    quantity = models.PositiveIntegerField(verbose_name="Quantité")
+    plate = models.ForeignKey(
+        Plate, on_delete=models.CASCADE, related_name="ingredients",
+        verbose_name="Plat")
+    ingredient = models.ForeignKey(
+        Ingredient, on_delete=models.CASCADE,
+        verbose_name="Ingrédient")
+    quantity = models.PositiveIntegerField(
+        verbose_name="Quantité")
 
     class Meta:
         verbose_name = "Ingrédient du plat"

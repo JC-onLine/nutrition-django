@@ -84,7 +84,7 @@ class PlatesUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Modification d'une nouvelle assiette"
+        context["title"] = "Modification d'une assiette"
         return context
 
 

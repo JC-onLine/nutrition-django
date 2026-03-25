@@ -7,9 +7,10 @@
 <body>
     <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">Modifier l'assiette</button>
+        {{ form.as_p }}
+       <button type="submit">Modifier l'assiette</button>
     </form>
+    <br>
     <a href="{% url 'nutrition:user_plates' %}">Retour à la liste des assiettes</a>
 </body>
 </html>
