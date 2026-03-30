@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    {% load custom_tags %}
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title1 }}</h1>
+    <h2>{{ title2 }}</h2>
+    <ul>
+        <li>{{ ingredient|verbose_name:"name" }}: {{ ingredient.name }} </li>
+        <li>{{ ingredient|verbose_name:"default_unit" }}: {{ ingredient.get_default_unit_display }}</li>
+        <li>{{ ingredient|verbose_name:"food_type" }}:
+            {{ ingredient.get_food_type_display }}</li>
+        <li>{{ ingredient|verbose_name:"diet_type" }}:
+            {{ ingredient.get_diet_type_display }}</li>
+        <li>{{ ingredient|verbose_name:"protein_per_100g" }}:
+            {{ ingredient.protein_per_100g }}
+        </li>
+        <li>{{ ingredient|verbose_name:"carbs_per_100g" }}:
+            {{ ingredient.carbs_per_100g }}
+        </li>
+        <li>{{ ingredient|verbose_name:"fats_per_100g" }}:
+            {{ ingredient.fats_per_100g }}
+        </li>
+        <li>{{ ingredient|verbose_name:"average_piece_weight" }}:
+            {{ ingredient.average_piece_weight }}
+        </li>
+        <li>{{ ingredient|verbose_name:"created_at" }}:
+            {{ ingredient.created_at }} -
+            {{ ingredient|verbose_name:"updated_at" }}:
+            {{ ingredient.updated_at }}
+        </li>
+    </ul>
+    <br>
+    <a href="{% url 'nutrition:ingredients_list' %}">Retour à la liste des ingrédients</a>
+</body>
+</html>

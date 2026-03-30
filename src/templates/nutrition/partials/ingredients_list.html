@@ -1,4 +1,4 @@
-{% if plates %}
+{% if ingredients %}
 <!-- Liste des assiettes -->
 <div class="row">
     {% for ingredient in ingredients %}
@@ -73,7 +73,7 @@
 
 <!-- Pagination -->
 {% if is_paginated %}
-<nav aria-label="Navigation des assiettes" class="mt-4">
+<nav aria-label="Navigation des ingrédient" class="mt-4">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
         <li class="page-item">
@@ -113,16 +113,16 @@
 </nav>
 {% endif %}
 {% else %}
-<!-- Message quand aucune assiette n'existe -->
+<!-- Message quand aucun ingredient n'existe -->
 <div class="text-center py-5">
     <div class="mb-4">
         <i class="bi bi-fork-knife" style="font-size: 4rem; color: #198754;"></i>
     </div>
     <h3 class="text-muted mb-3">
-        {% if request.GET.search %}
-        Aucune assiette trouvée pour "{{ request.GET.search }}"
-        {% else %}
-        Aucune assiette créée
+        {% if request.GET.search %} <!-- from search -->
+        Aucun ingrédient trouvée pour "{{ request.GET.search }}"
+        {% else %} <!-- from database -->
+        Aucune ingrédient créé
         {% endif %}
     </h3>
     <p class="text-muted mb-4">

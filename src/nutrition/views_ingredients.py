@@ -49,13 +49,26 @@ class IngredientsListView(LoginRequiredMixin, ListView):
     #         user=self.request.user).prefetch_related("ingredients__ingredient")
 
 
+
+
 # ==== Ingredient DetailView ====
-class IngredientsDetailView(LoginRequiredMixin, CreateView):
+class IngredientsDetailView(LoginRequiredMixin, DetailView):
     model = Ingredient
+    template_name = "nutrition/user_ingredients_detail.html"
     context_object_name = "ingredient"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Détails d'un ingrédient"
+        context["title1"] = f"Détails de l'ingrédient {context["ingredient"].name}"
+        context["title2"] = "Données de la fiche:"
         return context
 
+
+# ==== Ingredient UpdateView ====
+class IngredientsUpdateView(LoginRequiredMixin, UpdateView):
+    pass
+
+
+# ==== Ingredient DeleteView ====
+class IngredientsDeleteView(LoginRequiredMixin, DeleteView):
+    ...

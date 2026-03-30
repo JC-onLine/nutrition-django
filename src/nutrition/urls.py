@@ -1,6 +1,8 @@
 from django.urls import path
-from .views_plates import PlatesListView, PlatesCreateView, PlatesDetailView, PlatesUpdateView, PlatesDeleteView
-from .views_ingredients import IngredientsCreateView, IngredientsDetailView, IngredientsListView
+from .views_plates import (PlatesCreateView, PlatesListView, PlatesDetailView,
+                           PlatesUpdateView, PlatesDeleteView)
+from .views_ingredients import (IngredientsCreateView, IngredientsListView,
+                                IngredientsDetailView, IngredientsUpdateView, IngredientsDeleteView)
 
 app_name = "nutrition"
 urlpatterns = [
@@ -14,5 +16,7 @@ urlpatterns = [
     path("ingredients/create", IngredientsCreateView.as_view(), name="ingredients_create"),
     path("ingredients/list", IngredientsListView.as_view(), name="ingredients_list"),
     path('ingredients/detail/<int:pk>/', IngredientsDetailView.as_view(), name='ingredients_detail'),
+    path('ingredients/update/<int:pk>/', IngredientsUpdateView.as_view(), name='ingredients_update'),
+    path('ingredients/delete/<int:pk>/', IngredientsDeleteView.as_view(), name='ingredients_delete'),
 
 ]
