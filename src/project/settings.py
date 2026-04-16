@@ -29,12 +29,23 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
-
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
-
+# SECURITY PRODUCTION
+if not DEBUG:
+    # HTTPS settings
+    SESSION_COOKIE_SECURE = True  # Force les cookies de session à être transmis uniquement via HTTPS
+    CSRF_COOKIE_SECURE = True     # Force les cookies CSRF à être transmis uniquement via HTTPS
+    SECURE_SSL_REDIRECT = True    # Redirige automatiquement toutes les requêtes HTTP vers HTTPS
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Détecte HTTPS derrière un proxy
+    # HSTS settings (HTTP Strict Transport Security)
+    SECURE_HSTS_SECONDS = 31536000        # Durée (1 an) pendant laquelle le navigateur doit utiliser HTTPS uniquement
+    SECURE_HSTS_PRELOAD = True            # Permet l'inclusion dans la liste de préchargement HSTS des navigateurs
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Applique la politique HSTS à tous les sous-domaines
+    # Allauth settings with 1 proxy trusted by NGINX
+    ALLAUTH_TRUSTED_PROXY_COUNT = 1                # default=0
+    ALLAUTH_TRUSTED_CLIENT_IP_HEADER = "X-Real-IP" # default=None, NGINX="X-Real-IP", Cloudflare="CF-Connecting-IP"
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,7 +137,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'staticfiles',
 ]
 # users upload
 MEDIA_URL = '/media/'
@@ -145,4 +156,6 @@ ACCOUNT_LOGIN_METHODS = ("username", "email")
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 # Cas d'utilisation d'un formulaire avec champs personalisés
 # ACCOUNT_FORMS = {'signup': 'accounts.forms.CustomSignupForm'}
-
+# Sécurisation Django en https
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
