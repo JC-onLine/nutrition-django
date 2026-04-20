@@ -60,7 +60,7 @@ class IngredientsDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title1"] = f"Détails de l'ingrédient {context["ingredient"].name}"
-        context["title2"] = "Données de la fiche:"
+        context["title2"] = "Données de la fiche :"
         return context
 
 
