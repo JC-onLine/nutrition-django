@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails</title>
+</head>
+<body>
+    <h1>{{ title }}: "{{ plate.name }}" de "{{ plate.user }}"</h1>
+    <h2>Données de la fiche</h2>
+    <ul>
+        <li>Utilisateur: {{ plate.user }} </li>
+        <li>Nom: {{ plate.name }} </li>
+        <li>Date création.: {{ plate.created_at }} </li>
+        <li>Date modif.: {{ plate.updated_at }} </li>
+    </ul>
+    {% if plate.ingredients.exists %}
+        <h2>Liste des ingrédients :</h2>
+        <ul>
+        {% for plate_ingredient in plate.ingredients.all %}
+            <li>{{ plate_ingredient.quantity }}
+                {{ plate_ingredient.display_unit }}
+                {{ plate_ingredient.ingredient.name }}
+                <ul>
+                    <li>Type d'aliment:
+                        {{ plate_ingredient.ingredient.get_food_type_display }}</li>
+                    <li>Type de régime:
+                        {{ plate_ingredient.ingredient.get_diet_type_display }}</li>
+                    <li>Protéines pour 100g:
+                        {{ plate_ingredient.ingredient.protein_per_100g }}
+                    </li>
+                    <li>Protéines pour 100g:
+                        {{ plate_ingredient.ingredient.carbs_per_100g }}
+                    </li>
+                    <li>Glucides pour 100g:
+                        {{ plate_ingredient.ingredient.carbs_per_100g }}
+                    </li>
+                    <li>Lipides pour 100g:
+                        {{ plate_ingredient.ingredient.fats_per_100g }}
+                    </li>
+                    <li>Poids moyen par pièce (g):
+                        {{ plate_ingredient.ingredient.average_piece_weight }}
+                    </li>
+                    <li>Date création:
+                        {{ plate_ingredient.ingredient.created_at }} -
+                        Date de modification:
+                        {{ plate_ingredient.ingredient.updated_at }}
+                    </li>
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted small">Aucun ingrédient ajouté</p>
+    {% endif %}
+    <a href="{% url 'nutrition:user_plates' %}">Retour à la liste</a>
+</body>
+</html>

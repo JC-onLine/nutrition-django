@@ -1,27 +1,19 @@
-{% if plates %}
+{% if ingredients %}
 <!-- Liste des assiettes -->
 <div class="row">
-    {% for plate in plates %}
+    {% for ingredient in ingredients %}
     <div class="col-md-6 col-lg-4 mb-4">
         <div class="card h-100 shadow-sm">
             <div class="card-header bg-success-subtle">
-                <h5 class="card-title mb-0 text-success">{{ plate.name }}</h5>
+                <h5 class="card-title mb-0 text-success">{{ ingredient.name }}</h5>
                 <small class="text-muted">
-                    Créée le {{ plate.created_at|date:"d/m/Y à H:i" }} par {{ plate.user }}
+                    Créée le {{ ingredient.created_at|date:"d/m/Y à H:i" }} par {{ ingredient.user }}
                 </small>
             </div>
             <div class="card-body">
                 <!-- Informations nutritionnelles -->
-                {% if plate.ingredients.exists %}
-                    {% with nutritional_profile=plate.nutritional_profile %}
-                        <!--with:  un seul appel méthode nutritional_profile modèle Plate
-                            pour un seul retour dictionnaire complet, rappel retour méthode :
-                                return {
-                                    "total_protein": total_protein,
-                                    "total_carbs": total_carbs,
-                                    "total_fats": total_fats,
-                                    "total_calories": total_calories,
-                                } -->
+                {% if ingredient.ingredients.exists %}
+                    {% with nutritional_profile=ingredient.nutritional_profile %}
                         <div class="row text-center mb-3">
                             <div class="col-6">
                                 <div class="border rounded p-2 bg-light">
@@ -31,9 +23,9 @@
                             </div>
                             <div class="col-6">
                                 <div class="border rounded p-2 bg-light">
-                                    <strong class="text-info">{{ plate.ingredients.count }}</strong>
+                                    <strong class="text-info">{{ ingredient.ingredients.count }}</strong>
                                     <!-- ingredients: relation inverse de PlateIngredient -->
-                                    <br><small class="text-muted">ingrédient{{ plate.ingredients.count|pluralize }}</small>
+                                    <br><small class="text-muted">ingrédient{{ ingredient.ingredients.count|pluralize }}</small>
                                     <!-- pluralize: peut être surchargé avec un autre suffixe :aux, voir doc -->
                                 </div>
                             </div>
@@ -56,20 +48,6 @@
                         </div>
                     {% endwith %}
 
-                <!-- Liste des ingrédients -->
-                <div class="mb-3">
-                    <h6 class="text-muted mb-2">Ingrédients :</h6>
-                    <ul class="list-unstyled">
-                        {% for plate_ingredient in plate.ingredients.all %}
-                        <li class="small mb-1">
-                            <span class="badge bg-light text-dark me-1">
-                                {{ plate_ingredient.quantity }} {{ plate_ingredient.display_unit }}
-                            </span>
-                            {{ plate_ingredient.ingredient.name }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
                 {% else %}
                 <p class="text-muted small">Aucun ingrédient ajouté</p>
                 {% endif %}
@@ -77,15 +55,15 @@
             </div>
             <div class="card-footer bg-transparent">
                 <div class="btn-group w-100" role="group">
-                    <a href="{% url 'nutrition:plates_detail' plate.pk %}"
+                    <a href="{% url 'nutrition:ingredients_detail' ingredient.pk %}"
                        class="btn btn-outline-success btn-sm">Voir</a>
-                    <a href="{% url 'nutrition:plates_update' plate.pk %}"
+                    <a href="{% url 'nutrition:ingredients_update' ingredient.pk %}"
                        class="btn btn-outline-primary btn-sm">Modifier</a>
-                    <a href="{% url 'nutrition:plates_delete' plate.pk %}"
+                    <a href="{% url 'nutrition:ingredients_delete' ingredient.pk %}"
                        class="btn btn-outline-danger btn-sm">Supprimer</a>
                 </div>
                 <small class="text-muted d-block mt-2 text-center">
-                    Modifiée le {{ plate.updated_at|date:"d/m/Y à H:i" }}
+                    Modifiée le {{ ingredient.updated_at|date:"d/m/Y à H:i" }}
                 </small>
             </div>
         </div>
@@ -95,7 +73,7 @@
 
 <!-- Pagination -->
 {% if is_paginated %}
-<nav aria-label="Navigation des assiettes" class="mt-4">
+<nav aria-label="Navigation des ingrédient" class="mt-4">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
         <li class="page-item">
@@ -135,16 +113,16 @@
 </nav>
 {% endif %}
 {% else %}
-<!-- Message quand aucune assiette n'existe -->
+<!-- Message quand aucun ingredient n'existe -->
 <div class="text-center py-5">
     <div class="mb-4">
         <i class="bi bi-fork-knife" style="font-size: 4rem; color: #198754;"></i>
     </div>
     <h3 class="text-muted mb-3">
-        {% if request.GET.search %}
-        Aucune assiette trouvée pour "{{ request.GET.search }}"
-        {% else %}
-        Aucune assiette créée
+        {% if request.GET.search %} <!-- from search -->
+        Aucun ingrédient trouvée pour "{{ request.GET.search }}"
+        {% else %} <!-- from database -->
+        Aucune ingrédient créé
         {% endif %}
     </h3>
     <p class="text-muted mb-4">

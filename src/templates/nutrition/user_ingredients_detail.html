@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Détail d'Ingrédient - Doc Nutrition{% endblock %}
+
+{% block title_page %}Détail d'Ingrédient{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {% include 'nutrition/partials/header.html' %}
+        {% include 'nutrition/partials/ingredients_detail.html' %}
+    </div>
+</div>
+{% endblock %}

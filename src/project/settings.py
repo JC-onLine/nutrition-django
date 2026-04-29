@@ -18,7 +18,7 @@ from django.contrib.messages import constants as messages_constants
 env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(BASE_DIR / '../../nutrition_env/.env')
+environ.Env.read_env('/private/.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -29,12 +29,25 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
-
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
+# SECURITY PRODUCTION
+if not DEBUG:
+    # HTTPS settings
+    SESSION_COOKIE_SECURE = True  # Force les cookies de session à être transmis uniquement via HTTPS
+    CSRF_COOKIE_SECURE = True     # Force les cookies CSRF à être transmis uniquement via HTTPS
+    SECURE_SSL_REDIRECT = True    # Redirige automatiquement toutes les requêtes HTTP vers HTTPS
+    USE_X_FORWARDED_HOST = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Détecte HTTPS derrière un proxy
+    # HSTS settings (HTTP Strict Transport Security)
+    SECURE_HSTS_SECONDS = 31536000        # Durée (1 an) pendant laquelle le navigateur doit utiliser HTTPS uniquement
+    SECURE_HSTS_PRELOAD = True            # Permet l'inclusion dans la liste de préchargement HSTS des navigateurs
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Applique la politique HSTS à tous les sous-domaines
+    # Allauth settings with 1 proxy trusted by NGINX
+    ALLAUTH_TRUSTED_PROXY_COUNT = 1                # default=0
+    ALLAUTH_TRUSTED_CLIENT_IP_HEADER = "X-Real-IP" # default=None, NGINX="X-Real-IP", Cloudflare="CF-Connecting-IP"
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -117,16 +130,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 LANGUAGE_CODE = 'fr-fr'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles' # collectstatic for nginx
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'static', # dev: css, js, bootstrap
 ]
 # users upload
 MEDIA_URL = '/media/'

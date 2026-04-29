@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Modifier un ingrédient</button>
+    </form>
+    <br>
+    <a href="{% url 'nutrition:ingredients_list' %}">Retour à la liste des ingrédients</a>
+</body>
+</html>

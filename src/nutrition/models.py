@@ -11,21 +11,35 @@ User = get_user_model()
 
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100, validators=[LETTER_SPACE_DASH_VALIDATOR], verbose_name="Nom")
-    food_type = models.CharField(max_length=10, choices=FoodType, verbose_name="Type d'aliment")
-    diet_type = models.CharField(max_length=10, choices=DietType, verbose_name="Type de régime")
-    default_unit = models.CharField(max_length=10, choices=QuantityUnit, verbose_name="Unité par défaut")
-
-    protein_per_100g = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Protéines pour 100g",
-                                           default=0.00)
-    carbs_per_100g = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Glucides pour 100g",
-                                         default=0.00)
-    fats_per_100g = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Lipides pour 100g", default=0.00)
-
-    average_piece_weight = models.PositiveIntegerField(verbose_name="Poids moyen par pièce (g)", default=0)
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Créé le")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Mis à jour le")
+    name = models.CharField(
+        max_length=100,
+        validators=[LETTER_SPACE_DASH_VALIDATOR],
+        verbose_name="Nom")
+    food_type = models.CharField(
+        max_length=10,choices=FoodType,
+        verbose_name="Type d'aliment")
+    diet_type = models.CharField(
+        max_length=10,
+        choices=DietType,
+        verbose_name="Type de régime")
+    default_unit = models.CharField(
+        max_length=10, choices=QuantityUnit,
+        verbose_name="Unité par défaut")
+    protein_per_100g = models.DecimalField(
+        max_digits=5, decimal_places=2,
+        verbose_name="Protéines pour 100g", default=0.00)
+    carbs_per_100g = models.DecimalField(
+        max_digits=5, decimal_places=2,
+        verbose_name="Glucides pour 100g", default=0.00)
+    fats_per_100g = models.DecimalField(
+        max_digits=5, decimal_places=2,
+        verbose_name="Lipides pour 100g", default=0.00)
+    average_piece_weight = models.PositiveIntegerField(
+        verbose_name="Poids moyen par pièce (g)", default=0)
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Créé le")
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Mis à jour le")
 
     class Meta:
         verbose_name = "Ingrédient"
@@ -51,13 +65,19 @@ class Ingredient(models.Model):
 
 
 class Plate(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Utilisateur", related_name="plates")
-    name = models.CharField(max_length=100, verbose_name="Nom du plat")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Créé le")
-    updated_at = models.DateTimeField(auto_now=True, verbose_name="Mis à jour le")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name="Utilisateur", related_name="plates")
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Nom du plat")
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name="Créé le")
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name="Mis à jour le")
 
     class Meta:
         verbose_name = "Plat"
+        ordering = ['name',] # order by name and NO PYTEST WARNING
 
     def __str__(self):
         return f"{self.name} - {self.user}"
@@ -87,9 +107,14 @@ class Plate(models.Model):
 
 
 class PlateIngredient(models.Model):
-    plate = models.ForeignKey(Plate, on_delete=models.CASCADE, related_name="ingredients", verbose_name="Plat")
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, verbose_name="Ingrédient")
-    quantity = models.PositiveIntegerField(verbose_name="Quantité")
+    plate = models.ForeignKey(
+        Plate, on_delete=models.CASCADE, related_name="ingredients",
+        verbose_name="Plat")
+    ingredient = models.ForeignKey(
+        Ingredient, on_delete=models.CASCADE,
+        verbose_name="Ingrédient")
+    quantity = models.PositiveIntegerField(
+        verbose_name="Quantité")
 
     class Meta:
         verbose_name = "Ingrédient du plat"
@@ -125,4 +150,3 @@ class PlateIngredient(models.Model):
             return "g"
         else:
             return "p"
-    
