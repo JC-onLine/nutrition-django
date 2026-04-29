@@ -11,11 +11,8 @@ class PlatesCreateView(LoginRequiredMixin, CreateView):
     template_name = "nutrition/user_plates_create.html"
     fields = ["name"]
 
-    def get_user_name(self, request):
-        return request.user.pk
-
     def form_valid(self, form):
-        form.instance.user = self.get_user_name(self.request)
+        form.instance.user = self.request.user
         form.instance.name = form.cleaned_data['name']
         return super().form_valid(form)
 
