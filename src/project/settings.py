@@ -55,11 +55,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Django add on
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'crispy_forms',
+    'crispy_bootstrap5',
     # application declaration
     'accounts',
     'core',
@@ -158,4 +161,6 @@ ACCOUNT_LOGIN_METHODS = ("username", "email")
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 # Cas d'utilisation d'un formulaire avec champs personalisés
 # ACCOUNT_FORMS = {'signup': 'accounts.forms.CustomSignupForm'}
-
+# Crispy forms setup
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

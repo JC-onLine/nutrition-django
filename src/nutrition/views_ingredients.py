@@ -1,10 +1,11 @@
 from multiprocessing import context
-
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from .models import Ingredient
-from .forms import PlateForm, PlateIngredientFormset
+from .forms import IngredientForm, PlateIngredientFormset
 from .choices import DietType
 
 
@@ -93,7 +94,6 @@ class IngredientsUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Modification d'un ingrédient"
         return context
-
 
 # ==== Ingredient DeleteView ====
 class IngredientsDeleteView(LoginRequiredMixin, DeleteView):

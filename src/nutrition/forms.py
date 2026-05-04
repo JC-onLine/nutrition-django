@@ -1,12 +1,11 @@
 from django import forms
-from .models import Plate, PlateIngredient
+from .models import Plate, PlateIngredient, Ingredient
 
 
 class PlateForm(forms.ModelForm):
     class Meta:
         model = Plate
         fields = ["name"]
-
 
 PlateIngredientFormset = forms.modelformset_factory(
     PlateIngredient,
@@ -15,3 +14,7 @@ PlateIngredientFormset = forms.modelformset_factory(
     can_delete=True,
 )
 
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = "__all__"
