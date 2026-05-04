@@ -4,6 +4,8 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from .models import Ingredient
+from .forms import PlateForm, PlateIngredientFormset
+from .choices import DietType
 
 
 # ==== Ingredient CreateView ====
