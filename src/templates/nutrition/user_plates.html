@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Mes Assiettes - Doc Nutrition{% endblock %}
+{% block title %}{{ title_tab }}{% endblock %}
 
-{% block title_page %}Mes Assiettes{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-12">
         {% include 'nutrition/partials/header.html' %}
         <div id="plates-container">
-            {% include 'nutrition/partials/plates_list.html' %}
+            {% if view_tag == "PlatesListView" %}
+                {% if view_debug %}<p>** IngredientsListView **</p>{% endif %}
+                {% include 'nutrition/partials/plates_list.html' %}
+            {% endif %}
         </div>
     </div>
 </div>

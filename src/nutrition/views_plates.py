@@ -10,6 +10,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PlateForm, PlateIngredientFormset
 from .choices import DietType
 
+# constantes
+VIEW_DEBUG = False
 
 # ==== Plate CreateView ====
 class PlatesCreateView(LoginRequiredMixin, CreateView):
@@ -43,19 +45,27 @@ class PlatesListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = Plate.objects.filter(
             user=self.request.user).prefetch_related("ingredients__ingredient")
-
         search_query = self.request.GET.get("search", "").strip()
         if search_query:
             queryset = queryset.filter(
                 Q(name__icontains=search_query) |
                 Q(ingredients__ingredient__name__icontains=search_query)).distinct()
-
         return queryset.order_by("-created_at")
 
     def get_template_names(self):
         if self.request.headers.get("HX-Request"):
             return ["nutrition/partials/plates_list.html"]
         return [self.template_name]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["view_tag"] = "PlatesListView"
+        context["title_tab"] = "Liste assiettes - Doc Nutrition"
+        context["title1"] = "Mes assiettes"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
+        return context
 
 
 # ==== Plate DetailView ====

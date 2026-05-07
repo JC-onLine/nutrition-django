@@ -1,5 +1,4 @@
 from typing import Any
-from multiprocessing import context
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -58,7 +57,7 @@ class IngredientsListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["view_tag"] = "IngredientsListView"
         context["title_tab"] = "Liste ingrédients - Doc Nutrition"
-        context["title1"] = "Mes Ingrédients"
+        context["title1"] = "Mes ingrédients"
         context["title2"] = ""
         context["title3"] = ""
         context["view_debug"] = VIEW_DEBUG
