@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title_tab }}{% endblock %}
+
+{% block title_tab %}{{ title1 }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        {% include 'nutrition/partials/header.html' %}
+        {% if view_tag == "IngredientsCreateView" %}
+            {% if view_debug %}<p>** IngredientsCreateView **</p>{% endif %}
+            {% include 'nutrition/partials/ingredients_create.html' %}
+        {% elif view_tag == "IngredientsListView" %}
+            {% if view_debug %}<p>** IngredientsListView **</p>{% endif %}
+            {% include 'nutrition/partials/ingredients_list.html' %}
+        {% elif view_tag == "IngredientsDetailView" %}
+            {% if view_debug %}<p>** IngredientsDetailView **</p>{% endif %}
+            {% include 'nutrition/partials/ingredients_detail.html' %}
+        {% elif view_tag == "IngredientsUpdateView" %}
+            {% if view_debug %}<p>** IngredientsUpdateView **</p>{% endif %}
+            {% include 'nutrition/partials/ingredients_update.html' %}
+        {% elif view_tag == "IngredientsDeleteView" %}
+            {% if view_debug %}<p>** IngredientsDeleteView **</p>{% endif %}
+            {% include 'nutrition/partials/ingredients_delete.html' %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

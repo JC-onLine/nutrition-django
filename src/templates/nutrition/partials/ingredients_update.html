@@ -3,9 +3,9 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
 </head>
 <body>
+    <h1>{{ title1 }}</h1>
     <form method="post" class="col-md-6 col-lg-4 mb-4">
         {% csrf_token %}
         {{ form|crispy }}

@@ -1,3 +1,4 @@
+from typing import Any
 from multiprocessing import context
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
@@ -8,11 +9,13 @@ from .models import Ingredient
 from .forms import IngredientForm, PlateIngredientFormset
 from .choices import DietType
 
+# constantes
+VIEW_DEBUG = False
 
 # ==== Ingredient CreateView ====
 class IngredientsCreateView(LoginRequiredMixin, CreateView):
     model = Ingredient
-    template_name = "nutrition/user_ingredients_create.html"
+    template_name = "nutrition/nutrition.html"
     fields = ["name", "food_type", "diet_type", "default_unit",
               "protein_per_100g", "carbs_per_100g", "fats_per_100g",
               "average_piece_weight",]
@@ -35,41 +38,58 @@ class IngredientsCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Création d'un ingrédient"
+        context["view_tag"] = "IngredientsCreateView"
+        context["title_tab"] = "Ajout ingrédients - Doc Nutrition"
+        context["title1"] = "Ajout d'un ingrédient"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
 
 
 # ==== Ingredient ListView ====
 class IngredientsListView(LoginRequiredMixin, ListView):
     model = Ingredient
-    template_name = "nutrition/user_ingredients_list.html"
+    template_name = "nutrition/nutrition.html"
     context_object_name = "ingredients"
-    paginate_by = 2
+    paginate_by = 3
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["view_tag"] = "IngredientsListView"
+        context["title_tab"] = "Liste ingrédients - Doc Nutrition"
+        context["title1"] = "Mes Ingrédients"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
+        return context
 
     # def get_queryset(self):
     #     queryset = Ingredient.objects.filter(
     #         user=self.request.user).prefetch_related("ingredients__ingredient")
 
 
-
-
 # ==== Ingredient DetailView ====
 class IngredientsDetailView(LoginRequiredMixin, DetailView):
     model = Ingredient
-    template_name = "nutrition/user_ingredients_detail.html"
+    template_name = "nutrition/nutrition.html"
     context_object_name = "ingredient"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["view_tag"] = "IngredientsDetailView"
+        context["title_tab"] = f"Détails ingrédient {context["ingredient"].name} - Doc Nutrition"
         context["title1"] = f"Détails de l'ingrédient {context["ingredient"].name}"
-        context["title2"] = "Données de la fiche :"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
 
 
 # ==== Ingredient UpdateView ====
 class IngredientsUpdateView(LoginRequiredMixin, UpdateView):
     model = Ingredient
-    template_name = "nutrition/user_ingredients_update.html"
+    template_name = "nutrition/nutrition.html"
     fields = ["name", "food_type", "diet_type", "default_unit",
               "protein_per_100g", "carbs_per_100g", "fats_per_100g",
               "average_piece_weight",]
@@ -93,16 +113,28 @@ class IngredientsUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Modification d'un ingrédient"
+        context["view_tag"] = "IngredientsUpdateView"
+        context["title_tab"] = f"Modification ingrédient {context["ingredient"].name} - Doc Nutrition"
+        context["title1"] = f"Modification de l'ingrédient {context["ingredient"].name}"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
+
 
 # ==== Ingredient DeleteView ====
 class IngredientsDeleteView(LoginRequiredMixin, DeleteView):
     model = Ingredient
     context_object_name = "ingredient"
-    template_name = "nutrition/user_ingredients_delete.html"
+    template_name = "nutrition/nutrition.html"
     success_url = reverse_lazy("nutrition:ingredients_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Suppression de l'ingrédient"
+        context["view_tag"] = "IngredientsDeleteView"
+        context["title_tab"] = f"Suppression ingrédient {context["ingredient"].name} - Doc title_tab"
+        context["title1"] = f"Suppression de l'ingrédient {context["ingredient"].name}"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
