@@ -1,13 +1,10 @@
-{% extends 'base.html' %}
 
-{% block title %}{{ title_tab }}{% endblock %}
-
-{% block title_tab %}{{ title1 }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-12">
         {% include 'nutrition/partials/header.html' %}
+        <!-- Ingredient section -->
         {% if view_tag == "IngredientsCreateView" %}
             {% if view_debug %}<p>** IngredientsCreateView **</p>{% endif %}
             {% include 'nutrition/partials/ingredients_create.html' %}
@@ -23,6 +20,19 @@
         {% elif view_tag == "IngredientsDeleteView" %}
             {% if view_debug %}<p>** IngredientsDeleteView **</p>{% endif %}
             {% include 'nutrition/partials/ingredients_delete.html' %}
+        <!-- Plates section -->
+        {% elif view_tag == "PlatesCreateView" %}
+            {% if view_debug %}<p>** PlatesCreateView **</p>{% endif %}
+            {% include 'nutrition/partials/plates_create.html' %}
+        {% elif view_tag == "PlatesListView" %}
+            {% if view_debug %}<p>** PlatesListView **</p>{% endif %}
+            {% include 'nutrition/partials/plates_list.html' %}
+        {% elif view_tag == "PlatesDetailView" %}
+            {% if view_debug %}<p>** PlatesDetailView **</p>{% endif %}
+            {% include 'nutrition/partials/plates_detail.html' %}
+        {% elif view_tag == "PlatesUpdateView" %}
+            {% if view_debug %}<p>** plates_update **</p>{% endif %}
+            {% include 'nutrition/partials/plates_update.html' %}
         {% endif %}
     </div>
 </div>

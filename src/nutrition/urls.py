@@ -1,6 +1,6 @@
 from django.urls import path
 from .views_plates import (PlatesCreateView, PlatesListView, PlatesDetailView,
-                           plates_update, PlatesDeleteView)
+                           PlatesUpdateView, plates_update, PlatesDeleteView)
 from .views_ingredients import (IngredientsCreateView, IngredientsListView,
                                 IngredientsDetailView, IngredientsUpdateView, IngredientsDeleteView)
 
@@ -8,9 +8,10 @@ app_name = "nutrition"
 urlpatterns = [
     # ==== Plate CRUD ====
     path("plates/create", PlatesCreateView.as_view(), name="plates_create"),
-    path("user-plates", PlatesListView.as_view(), name="user_plates"),
+    path("plates/list", PlatesListView.as_view(), name="plates_list"),
     path('plates/detail/<int:pk>/', PlatesDetailView.as_view(), name='plates_detail'),
-    path('plates/update/<int:pk>/', plates_update, name='plates_update'),
+    path('plates/update/<int:pk>/', PlatesUpdateView.as_view(), name='plates_update'),
+    path('plates/update_fct/<int:pk>/', plates_update, name='plates_update_fct'),
     path('plates/delete/<int:pk>/', PlatesDeleteView.as_view(), name='plates_delete'),
     # ==== Ingredient CRUD ====
     path("ingredients/create", IngredientsCreateView.as_view(), name="ingredients_create"),

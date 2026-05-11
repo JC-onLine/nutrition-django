@@ -111,7 +111,6 @@ class IngredientsUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Modification d'un ingrédient"
         context["view_tag"] = "IngredientsUpdateView"
         context["title_tab"] = f"Modification ingrédient {context["ingredient"].name} - Doc Nutrition"
         context["title1"] = f"Modification de l'ingrédient {context["ingredient"].name}"

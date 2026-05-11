@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
+{% block content %}
 {% if plates %}
 <!-- Liste des assiettes -->
 <div class="row">
@@ -5,7 +9,7 @@
     <div class="col-md-6 col-lg-4 mb-4">
         <div class="card h-100 shadow-sm">
             <div class="card-header bg-success-subtle">
-                <h5 class="card-title mb-0 text-success">{{ user.name }}</h5>
+                <h5 class="card-title mb-0 text-success">{{ plate.name }}</h5>
                 <small class="text-muted">
                     Créée le {{ plate.created_at|date:"d/m/Y à H:i" }} par {{ plate.user }}
                 </small>
@@ -161,3 +165,4 @@
     {% endif %}
 </div>
 {% endif %}
+{% endblock %}

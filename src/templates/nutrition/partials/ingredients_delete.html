@@ -1,7 +1,11 @@
-<h2>{{ title1 }} ?</h2>
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
+{% block content %}
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
     <a href="{% url 'nutrition:ingredients_list' %}"
        class="btn btn-outline-primary btn-sm">Retour à la liste des ingrédients</a>
 </form>
+{% endblock %}

@@ -1,7 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
 {% load custom_tags %}
-<h1>{{ title1 }}</h1>
+{% block content %}
 <div class="col-md-6 col-lg-6 mb-4">
-    <div class="card h-100 shadow-sm">
+    <div class="card shadow-sm">
         <div class="card-header bg-success-subtle">
             <h5 class="card-title mb-0 text-success">{{ ingredient.name }}</h5>
             <ul>
@@ -32,8 +35,8 @@
         </div>
     </div>
 </div>
-<br>
 <a href="{% url 'nutrition:ingredients_update' ingredient.pk %}"
    class="btn btn-outline-primary btn-sm">Modifier</a>
 <a href="{% url 'nutrition:ingredients_list' %}"
    class="btn btn-outline-primary btn-sm">Retour à la liste des ingrédients</a>
+{% endblock %}

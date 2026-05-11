@@ -1,9 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
 {% load crispy_forms_tags %}
-<h1>{{ title1 }}</h1>
+{% block content %}
 <form method="post" class="col-md-6 col-lg-4 mb-4">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-outline-danger btn-sm">Modifier l'ingrédient</button>
+    <button type="submit"
+            class="btn btn-outline-danger btn-sm">
+            Modifier l'ingrédient
+    </button>
 <a href="{% url 'nutrition:ingredients_list' %}"
    class="btn btn-outline-primary btn-sm">Retour à la liste des ingrédients</a>
 </form>
+{% endblock %}

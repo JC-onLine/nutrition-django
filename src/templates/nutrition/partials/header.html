@@ -11,15 +11,15 @@
     <div class="col-md-4">
         <div class="input-group">
             <input
-            type="text"
-            class="form-control"
-            placeholder="Rechercher une assiette ou un ingrédient..."
-            name="search"
-            value="{{ request.GET.search }}"
-            hx-get="{% url 'nutrition:user_plates' %}"
-             hx-target="#plates-container"
-             hx-trigger="keyup changed delay:300ms"
-             hx-push-url="true"
+                type="text"
+                class="form-control"
+                placeholder="Rechercher une assiette ou un ingrédient..."
+                name="search"
+                value="{{ request.GET.search }}"
+                hx-get="{% url 'nutrition:plates_list' %}"
+                 hx-target="#plates-container"
+                 hx-trigger="keyup changed delay:300ms"
+                 hx-push-url="true"
             >
             <button class="btn btn-outline-secondary" type="submit">
                 <i class="bi bi-search"></i>
