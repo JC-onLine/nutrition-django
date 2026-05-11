@@ -1,14 +1,22 @@
+# from allauth.core.internal.httpkit import
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 from .models import Plate
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import PlateForm, PlateIngredientFormset
+from .choices import DietType
 
+# constantes
+VIEW_DEBUG = True
 
 # ==== Plate CreateView ====
 class PlatesCreateView(LoginRequiredMixin, CreateView):
     model = Plate
-    template_name = "nutrition/user_plates_create.html"
+    template_name = "nutrition/nutrition.html"
     fields = ["name"]
 
     def form_valid(self, form):
@@ -22,7 +30,12 @@ class PlatesCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Création d'une nouvelle assiette"
+        context["view_tag"] = "PlatesCreateView"
+        context["title_tab"] = "Création assiette - Doc Nutrition"
+        context["title1"] = "Création d'une assiette"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
 
 
@@ -30,20 +43,18 @@ class PlatesCreateView(LoginRequiredMixin, CreateView):
 # ==== Plate ListView ====
 class PlatesListView(LoginRequiredMixin, ListView):
     model = Plate
-    template_name = "nutrition/user_plates.html"
+    template_name = "nutrition/nutrition.html"
     context_object_name = "plates"
     paginate_by = 2
 
     def get_queryset(self):
         queryset = Plate.objects.filter(
             user=self.request.user).prefetch_related("ingredients__ingredient")
-
         search_query = self.request.GET.get("search", "").strip()
         if search_query:
             queryset = queryset.filter(
                 Q(name__icontains=search_query) |
                 Q(ingredients__ingredient__name__icontains=search_query)).distinct()
-
         return queryset.order_by("-created_at")
 
     def get_template_names(self):
@@ -51,23 +62,39 @@ class PlatesListView(LoginRequiredMixin, ListView):
             return ["nutrition/partials/plates_list.html"]
         return [self.template_name]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["view_tag"] = "PlatesListView"
+        context["title_tab"] = "Liste assiettes - Doc Nutrition"
+        context["title1"] = "Mes assiettes"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
+        return context
+
 
 # ==== Plate DetailView ====
 class PlatesDetailView(LoginRequiredMixin, DetailView):
     model = Plate
-    template_name = "nutrition/user_plates_detail.html"
+    template_name = "nutrition/nutrition.html"
     context_object_name = "plate"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Détails de l'assiette"
+        context["view_tag"] = "PlatesDetailView"
+        context["title_tab"] = f"Détails assiette { context['plate'].name} - Doc Nutrition"
+        context["title1"] = f"Détails de l'assiette { context['plate'].name} de { context['plate'].user.username }"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
 
 
 # ==== Plate UpdateView ====
 class PlatesUpdateView(LoginRequiredMixin, UpdateView):
     model = Plate
-    template_name = "nutrition/user_plates_update.html"
+    template_name = "nutrition/nutrition.html"
     fields = ["name"]
 
     def form_valid(self, form):
@@ -80,17 +107,51 @@ class PlatesUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Modification d'une assiette"
+        context["view_tag"] = "PlatesUpdateView"
+        context["title_tab"] = f"Modification assiette {context["plate"].name} - Doc Nutrition"
+        context["title1"] = f"Modification de l'assiette {context["plate"].name}"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
 
+@login_required
+def plates_update(request, pk):
+    plate = get_object_or_404(Plate, pk=pk, user=request.user)
+    # POST method
+    if request.method == "POST":
+        plate_form = PlateForm(request.POST, instance=plate)
+        formset = PlateIngredientFormset(request.POST, queryset=plate.ingredients.all())
 
+        if plate_form.is_valid() and formset.is_valid():
+            with transaction.atomic():
+                plate_form.save()
+                formset.save()
+            return redirect(plate)
+    else:
+        plate_form = PlateForm(instance=plate)
+        formset = PlateIngredientFormset(queryset=plate.ingredients.all())
+    return render(
+        request, "nutrition/nutrition.html",
+        context={
+            "formset": formset,
+            "plate": plate,
+            "diet_type_choices": DietType.choices,
+            "view_tag": "plates_update",
+            "title_tab": f"Modification assiette {plate.name} - Doc Nutrition",
+            "title1": f"Modification de l'assiette {plate.name}",
+            "title2": "",
+            "title3": "",
+            "view_debug": VIEW_DEBUG,
+        }
+    )
 
 # ==== Plate DeleteView ====
 class PlatesDeleteView(LoginRequiredMixin, DeleteView):
     model = Plate
     context_object_name = "plate"
-    template_name = "nutrition/user_plates_delete.html"
-    success_url = reverse_lazy("nutrition:user_plates")
+    template_name = "nutrition/nutrition.html"
+    success_url = reverse_lazy("nutrition:nutrition")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

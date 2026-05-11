@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
+{% block content %}
 {% if plates %}
 <!-- Liste des assiettes -->
 <div class="row">
@@ -161,3 +165,4 @@
     {% endif %}
 </div>
 {% endif %}
+{% endblock %}

@@ -1,5 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
+{% block content %}
 {% if ingredients %}
-<!-- Liste des assiettes -->
+<!-- Liste des ingrédients -->
 <div class="row">
     {% for ingredient in ingredients %}
     <div class="col-md-6 col-lg-4 mb-4">
@@ -7,7 +11,7 @@
             <div class="card-header bg-success-subtle">
                 <h5 class="card-title mb-0 text-success">{{ ingredient.name }}</h5>
                 <small class="text-muted">
-                    Créée le {{ ingredient.created_at|date:"d/m/Y à H:i" }} par {{ ingredient.user }}
+                    Créée le {{ ingredient.created_at|date:"d/m/Y à H:i" }}
                 </small>
             </div>
             <div class="card-body">
@@ -122,7 +126,7 @@
         {% if request.GET.search %} <!-- from search -->
         Aucun ingrédient trouvée pour "{{ request.GET.search }}"
         {% else %} <!-- from database -->
-        Aucune ingrédient créé
+        Aucun ingrédient créé
         {% endif %}
     </h3>
     <p class="text-muted mb-4">
@@ -139,3 +143,4 @@
     {% endif %}
 </div>
 {% endif %}
+{% endblock %}
