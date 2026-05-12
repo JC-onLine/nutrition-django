@@ -3,9 +3,11 @@ certifi==2026.2.25
 cffi==2.0.0
 charset-normalizer==3.4.4
 coverage==7.13.4
+crispy-bootstrap5==2026.3
 cryptography==46.0.5
 Django==6.0.2
 django-allauth==65.14.3
+django-crispy-forms==2.6
 django-environ==0.13.0
 django-extensions==4.1
 idna==3.11
