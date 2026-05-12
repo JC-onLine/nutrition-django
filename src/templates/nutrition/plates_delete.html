@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer</button>
+    <a href="{% url 'nutrition:plates_list' %}"
+       class="btn btn-outline-primary btn-sm">Retour à la liste des assiettes</a>
+</form>
+{% endblock %}
