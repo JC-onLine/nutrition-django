@@ -14,40 +14,47 @@
 </head>
 
 <body class="d-flex flex-column h-100">
+    <!-- Barre de menu -->
     <nav class="navbar navbar-expand-lg bg-success-subtle">
         <div class="container-fluid">
+            <!-- Home -->
             <a class="navbar-brand text-success fw-bold" href="{% url 'home' %}">Doc Nutrition</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
+                    <!-- Utilisateur connecté -->
                     {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <button class="nav-link dropdown-toggle text-success-emphasis" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Mon compte
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Mon profil</a></li>
-                            <li><a class="dropdown-item" href="{% url 'nutrition:plates_list' %}">Mes assiettes</a></li>
-                            <li><a class="dropdown-item" href="{% url 'nutrition:ingredients_list' %}">Mes Ingrédients</a></li>
-                            <li>
-                                <form method="post" action="{% url 'account_logout' %}">
-                                    {% csrf_token %}
-                                    <input type="submit" class="dropdown-item" value="Déconnexion">
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
+                        <li class="nav-item dropdown">
+                            <!-- Mon compte -->
+                            <button class="nav-link dropdown-toggle text-success-emphasis" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Mon compte
+                            </button>
+                            <!-- Menu déroulant -->
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Mon profil</a></li>
+                                <li><a class="dropdown-item" href="{% url 'nutrition:plates_list' %}">Mes assiettes</a></li>
+                                <li><a class="dropdown-item" href="{% url 'nutrition:ingredients_list' %}">Mes Ingrédients</a></li>
+                                <li>
+                                    <form method="post" action="{% url 'account_logout' %}">
+                                        {% csrf_token %}
+                                        <input type="submit" class="dropdown-item" value="Déconnexion">
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-success-emphasis" href="{% url 'account_signup' %}">Créer un compte</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-success-emphasis" href="{% url 'account_login' %}">Connexion</a>
-                    </li>
+                    <!-- Utilisateur NON connecté -->
+                        <li class="nav-item">
+                            <a class="nav-link text-success-emphasis" href="{% url 'account_signup' %}">Créer un compte</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success-emphasis" href="{% url 'account_login' %}">Connexion</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -66,6 +73,9 @@
         </div>
     {% endif %}
 
+    {% include 'nutrition/partials/header.html' %}
+
+    <!-- Titre de la page -->
     <div class="container-fluid mb-5">
         <h1 class="mt-4 mb-4 text-center text-success">
             {% block title_page %}{% endblock %}
@@ -74,11 +84,12 @@
         {% endblock %}
     </div>
 
+    <!-- Pied de page -->
     <footer class="bg-light text-center text-lg-start mt-auto border-top border-success-subtle">
         <div class="text-center p-3 text-muted">
-            © 2025 Copyright:
+            © 2026 Copyright:
             <br>
-            By Doc-Etudiant
+            By Docstring/Mentorat/Django
         </div>
     </footer>
 
