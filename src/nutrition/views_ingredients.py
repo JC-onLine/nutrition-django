@@ -14,7 +14,7 @@ VIEW_DEBUG = False
 # ==== Ingredient CreateView ====
 class IngredientsCreateView(LoginRequiredMixin, CreateView):
     model = Ingredient
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/ingredients_create.html"
     fields = ["name", "food_type", "diet_type", "default_unit",
               "protein_per_100g", "carbs_per_100g", "fats_per_100g",
               "average_piece_weight",]
@@ -49,7 +49,7 @@ class IngredientsCreateView(LoginRequiredMixin, CreateView):
 # ==== Ingredient ListView ====
 class IngredientsListView(LoginRequiredMixin, ListView):
     model = Ingredient
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/ingredients_list.html"
     context_object_name = "ingredients"
     paginate_by = 3
 
@@ -71,7 +71,7 @@ class IngredientsListView(LoginRequiredMixin, ListView):
 # ==== Ingredient DetailView ====
 class IngredientsDetailView(LoginRequiredMixin, DetailView):
     model = Ingredient
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/ingredients_detail.html"
     context_object_name = "ingredient"
 
     def get_context_data(self, **kwargs):
@@ -88,7 +88,7 @@ class IngredientsDetailView(LoginRequiredMixin, DetailView):
 # ==== Ingredient UpdateView ====
 class IngredientsUpdateView(LoginRequiredMixin, UpdateView):
     model = Ingredient
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/ingredients_update.html"
     fields = ["name", "food_type", "diet_type", "default_unit",
               "protein_per_100g", "carbs_per_100g", "fats_per_100g",
               "average_piece_weight",]
@@ -124,13 +124,13 @@ class IngredientsUpdateView(LoginRequiredMixin, UpdateView):
 class IngredientsDeleteView(LoginRequiredMixin, DeleteView):
     model = Ingredient
     context_object_name = "ingredient"
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/ingredients_delete.html"
     success_url = reverse_lazy("nutrition:ingredients_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["view_tag"] = "IngredientsDeleteView"
-        context["title_tab"] = f"Suppression ingrédient {context["ingredient"].name} - Doc title_tab"
+        context["title_tab"] = f"Suppression ingrédient {context["ingredient"].name} - Doc Nutrition"
         context["title1"] = f"Suppression de l'ingrédient {context["ingredient"].name}"
         context["title2"] = ""
         context["title3"] = ""

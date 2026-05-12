@@ -16,7 +16,7 @@ VIEW_DEBUG = True
 # ==== Plate CreateView ====
 class PlatesCreateView(LoginRequiredMixin, CreateView):
     model = Plate
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/plates_create.html"
     fields = ["name"]
 
     def form_valid(self, form):
@@ -39,11 +39,10 @@ class PlatesCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-
 # ==== Plate ListView ====
 class PlatesListView(LoginRequiredMixin, ListView):
     model = Plate
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/plates_list.html"
     context_object_name = "plates"
     paginate_by = 2
 
@@ -76,7 +75,7 @@ class PlatesListView(LoginRequiredMixin, ListView):
 # ==== Plate DetailView ====
 class PlatesDetailView(LoginRequiredMixin, DetailView):
     model = Plate
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/plates_detail.html"
     context_object_name = "plate"
 
     def get_context_data(self, **kwargs):
@@ -94,7 +93,7 @@ class PlatesDetailView(LoginRequiredMixin, DetailView):
 # ==== Plate UpdateView ====
 class PlatesUpdateView(LoginRequiredMixin, UpdateView):
     model = Plate
-    template_name = "nutrition/nutrition.html"
+    template_name = "nutrition/plates_update.html"
     fields = ["name"]
 
     def form_valid(self, form):
@@ -132,7 +131,7 @@ def plates_update(request, pk):
         plate_form = PlateForm(instance=plate)
         formset = PlateIngredientFormset(queryset=plate.ingredients.all())
     return render(
-        request, "nutrition/nutrition.html",
+        request, "nutrition/plates_update.html",
         context={
             "formset": formset,
             "plate": plate,
@@ -150,10 +149,15 @@ def plates_update(request, pk):
 class PlatesDeleteView(LoginRequiredMixin, DeleteView):
     model = Plate
     context_object_name = "plate"
-    template_name = "nutrition/nutrition.html"
-    success_url = reverse_lazy("nutrition:nutrition")
+    template_name = "nutrition/plates_delete.html"
+    success_url = reverse_lazy("nutrition:plates_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Suppression de l'assiette"
+        context["title_tab"] = f"Suppression assiette {context["plate"].name} - Doc Nutrition"
+        context["title1"] = f"Suppression de l'assiette {context["plate"].name}"
+        context["title2"] = ""
+        context["title3"] = ""
+        context["view_debug"] = VIEW_DEBUG
         return context
