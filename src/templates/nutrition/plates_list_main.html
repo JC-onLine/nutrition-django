@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}{{ title_tab }}{% endblock %}
+{% block title_page %}{{ title1 }}{% endblock %}
+{% block content %}
+<!-- Bouton pour créer une nouvelle assiette et barre de recherche -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <a href="{% url 'nutrition:plates_create' %}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Ajout Assiette
+    </a>
+
+    <!-- Bouton Nouvel Ingrédient -->
+    <a href="{% url 'nutrition:ingredients_create' %}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Ajout Ingrédient
+    </a>
+
+    <!-- Barre de recherche -->
+    <div class="col-md-4">
+        <div class="input-group">
+            <input type="text" class="form-control"
+                placeholder="Rechercher une assiette ou un ingrédient..."
+                name="search"
+                value="{{ request.GET.search }}"
+                hx-get="{% url 'nutrition:plates_list' %}"
+                hx-target="#plates-container"
+                hx-trigger="keyup changed delay:300ms"
+                hx-push-url="true"
+            >
+            <!-- Documentation :
+            request.GET.search: Récupération de la clé de recherche depuis l'URL
+            hx-get:             Quand un trigger se produit, fais une requête HTTP GET vers cette URL
+            hx-target:          Définit où injecter a réponse HTML
+            hx-trigger          keyup: Décenche a requête à chaque reâchement de touche cavier
+                                delay:300ms: Ajoute un debounce.
+                                HTMX attend 300 ms après a dernière frappe avant dʼenvoyer a requête
+            hx-push-url:        Met à jour ʼURL du navigateur avec es paramètres GET, /plates/list/?search=pizza
+            -->
+        </div>
+            <!-- Suppression du bouton de recherche, car dynamique à la saisie clavier avec HTMX
+            <button class="btn btn-outline-secondary" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+            -->
+    </div>
+</div>
+    <!-- Insertion Liste des assiettes avec l'id HTML -->
+    <div id="plates-container">
+    {% include 'nutrition/partials/plates_list.html' %}
+</div>
+{% endblock %}

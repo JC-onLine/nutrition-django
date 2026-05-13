@@ -42,23 +42,29 @@ class PlatesCreateView(LoginRequiredMixin, CreateView):
 # ==== Plate ListView ====
 class PlatesListView(LoginRequiredMixin, ListView):
     model = Plate
-    template_name = "nutrition/plates_list.html"
+    template_name = "nutrition/plates_list_main.html"
     context_object_name = "plates"
     paginate_by = 2
 
     def get_queryset(self):
+        # Filtre sur l'utilisateur
         queryset = Plate.objects.filter(
             user=self.request.user).prefetch_related("ingredients__ingredient")
+        # Récupère la clé de recherche depui la barre de recherche
+        # "search" est le nom de l'input HTML (strip: suppression des espaces)
         search_query = self.request.GET.get("search", "").strip()
+        # Clé de recherche présente
         if search_query:
             queryset = queryset.filter(
-                Q(name__icontains=search_query) |
-                Q(ingredients__ingredient__name__icontains=search_query)).distinct()
-        return queryset.order_by("-created_at")
+                Q(name__icontains=search_query) |   # icontains: ne tiens pas compte de la casse
+                Q(ingredients__ingredient__name__icontains=search_query)).distinct() # distinct: supprime les doublons
+        return queryset.order_by("-created_at") # trié par date de création
 
     def get_template_names(self):
+        # With HTMX
         if self.request.headers.get("HX-Request"):
             return ["nutrition/partials/plates_list.html"]
+        # Without HTMX
         return [self.template_name]
 
     def get_context_data(self, **kwargs):
