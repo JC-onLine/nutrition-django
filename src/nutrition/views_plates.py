@@ -134,10 +134,10 @@ def plates_update(request, pk):
                 formset.save()
             return redirect(plate)
     else:
-        plate_form = PlateForm(instance=plate)
+        plate_form = PlateForm(instance=plate) # permet de préremplir le formulaire avec la base de données
         formset = PlateIngredientFormset(queryset=plate.ingredients.all())
     return render(
-        request, "nutrition/plates_update.html",
+        request, "nutrition/plates_update_form.html", # formulaire composé de plusieurs partials
         context={
             "formset": formset,
             "plate": plate,
