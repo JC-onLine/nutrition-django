@@ -14,9 +14,9 @@
     <h2>Liste des ingrédients :</h2>
     <ul>
     {% for plate_ingredient in plate.ingredients.all %}
-        <li>{{ plate_ingredient.quantity }}
+        <li><strong>{{ plate_ingredient.quantity }}
             {{ plate_ingredient.display_unit }}
-            {{ plate_ingredient.ingredient.name }}
+            {{ plate_ingredient.ingredient.name }}</strong>
             <ul>
                 <li>Type d'aliment:
                     {{ plate_ingredient.ingredient.get_food_type_display }}</li>
@@ -49,7 +49,7 @@
 {% else %}
     <p class="text-muted small">Aucun ingrédient ajouté</p>
 {% endif %}
-<a href="{% url 'nutrition:plates_update' plate.pk %}"
+<a href="{% url 'nutrition:plates_update_htmx' plate.pk %}"
    class="btn btn-outline-primary btn-sm">Modifier</a>
 <a href="{% url 'nutrition:plates_list' %}"
    class="btn btn-outline-primary btn-sm">Retour à la liste</a>

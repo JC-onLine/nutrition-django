@@ -1,8 +1,8 @@
 from decimal import Decimal
-
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from utils.validators import LETTER_SPACE_DASH_VALIDATOR
 from .choices import FoodType, DietType, QuantityUnit
@@ -81,6 +81,10 @@ class Plate(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.user}"
+
+    # Renvoi la vue de référence pour le modèle
+    def get_absolute_url(self):
+        return reverse("nutrition:plates_detail", kwargs={"pk": self.pk})
 
     def nutritional_profile(self):
         # get all ingredients of current plate
