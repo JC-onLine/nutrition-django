@@ -1,7 +1,3 @@
-{% extends 'base.html' %}
-{% block title %}{{ title_tab }}{% endblock %}
-{% block title_page %}{{ title1 }}{% endblock %}
-{% block content %}
 {% if plates %}
 <!-- Liste des assiettes -->
 <div class="row">
@@ -83,7 +79,7 @@
                 <div class="btn-group w-100" role="group">
                     <a href="{% url 'nutrition:plates_detail' plate.pk %}"
                        class="btn btn-outline-success btn-sm">Voir</a>
-                    <a href="{% url 'nutrition:plates_update' plate.pk %}"
+                    <a href="{% url 'nutrition:plates_update_htmx' plate.pk %}"
                        class="btn btn-outline-primary btn-sm">Modifier</a>
                     <a href="{% url 'nutrition:plates_delete' plate.pk %}"
                        class="btn btn-outline-danger btn-sm">Supprimer</a>
@@ -99,70 +95,69 @@
 
 <!-- Pagination -->
 {% if is_paginated %}
-<nav aria-label="Navigation des assiettes" class="mt-4">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link"
-                href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo;
-                Première</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link"
-                href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Précédente</a>
-        </li>
-        {% endif %}
+    <nav aria-label="Navigation des assiettes" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo;
+                    Première</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                    href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Précédente</a>
+            </li>
+            {% endif %}
 
-        <li class="page-item active">
-            <span class="page-link">
-                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
-            </span>
-        </li>
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
 
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <!-- Préserve le terme de recherche lors de la navigation entre les pages.
-                 Exemple : Si l'utilisateur recherche "poulet" et obtient 25 résultats sur 3 pages,
-                 ce paramètre garantit qu'en cliquant sur "Suivante", seules les assiettes contenant "poulet"
-                 seront affichées sur la page 2, puis la page 3, etc.
-                 Sans ce paramètre, la pagination afficherait TOUTES les assiettes de l'utilisateur. -->
-            <a class="page-link"
-                href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Suivante</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link"
-                href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Dernière
-                &raquo;</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <!-- Préserve le terme de recherche lors de la navigation entre les pages.
+                     Exemple : Si l'utilisateur recherche "poulet" et obtient 25 résultats sur 3 pages,
+                     ce paramètre garantit qu'en cliquant sur "Suivante", seules les assiettes contenant "poulet"
+                     seront affichées sur la page 2, puis la page 3, etc.
+                     Sans ce paramètre, la pagination afficherait TOUTES les assiettes de l'utilisateur. -->
+                <a class="page-link"
+                    href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Suivante</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"
+                    href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Dernière
+                    &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endif %}
 {% else %}
-<!-- Message quand aucune assiette n'existe -->
-<div class="text-center py-5">
-    <div class="mb-4">
-        <i class="bi bi-fork-knife" style="font-size: 4rem; color: #198754;"></i>
+    <!-- Message quand aucune assiette n'existe -->
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <i class="bi bi-fork-knife" style="font-size: 4rem; color: #198754;"></i>
+        </div>
+        <h3 class="text-muted mb-3">
+            {% if request.GET.search %}
+            Aucune assiette trouvée pour "{{ request.GET.search }}"
+            {% else %}
+            Aucune assiette créée
+            {% endif %}
+        </h3>
+        <p class="text-muted mb-4">
+            {% if request.GET.search %}
+            Essayez avec un autre terme de recherche.
+            {% else %}
+            Commencez par créer votre première assiette pour suivre vos apports nutritionnels.
+            {% endif %}
+        </p>
+        {% if not request.GET.search %}
+            <a href="" class="btn btn-success btn-lg">
+                <i class="bi bi-plus-circle"></i> Créer ma première assiette
+            </a>
+        {% endif %}
     </div>
-    <h3 class="text-muted mb-3">
-        {% if request.GET.search %}
-        Aucune assiette trouvée pour "{{ request.GET.search }}"
-        {% else %}
-        Aucune assiette créée
-        {% endif %}
-    </h3>
-    <p class="text-muted mb-4">
-        {% if request.GET.search %}
-        Essayez avec un autre terme de recherche.
-        {% else %}
-        Commencez par créer votre première assiette pour suivre vos apports nutritionnels.
-        {% endif %}
-    </p>
-    {% if not request.GET.search %}
-    <a href="" class="btn btn-success btn-lg">
-        <i class="bi bi-plus-circle"></i> Créer ma première assiette
-    </a>
-    {% endif %}
-</div>
 {% endif %}
-{% endblock %}

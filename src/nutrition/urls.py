@@ -1,6 +1,6 @@
 from django.urls import path
 from .views_plates import (PlatesCreateView, PlatesListView, PlatesDetailView,
-                           PlatesUpdateView, plates_update, PlatesDeleteView)
+                           PlatesUpdateView, plates_update, PlatesDeleteView, ingredients_search, add_ingredient_to_plate)
 from .views_ingredients import (IngredientsCreateView, IngredientsListView,
                                 IngredientsDetailView, IngredientsUpdateView, IngredientsDeleteView)
 
@@ -11,7 +11,7 @@ urlpatterns = [
     path("plates/list", PlatesListView.as_view(), name="plates_list"),
     path('plates/detail/<int:pk>/', PlatesDetailView.as_view(), name='plates_detail'),
     path('plates/update/<int:pk>/', PlatesUpdateView.as_view(), name='plates_update'),
-    path('plates/update_fct/<int:pk>/', plates_update, name='plates_update_fct'),
+    path('plates/update_htmx/<int:pk>/', plates_update, name='plates_update_htmx'),
     path('plates/delete/<int:pk>/', PlatesDeleteView.as_view(), name='plates_delete'),
     # ==== Ingredient CRUD ====
     path("ingredients/create", IngredientsCreateView.as_view(), name="ingredients_create"),
@@ -19,4 +19,8 @@ urlpatterns = [
     path('ingredients/detail/<int:pk>/', IngredientsDetailView.as_view(), name='ingredients_detail'),
     path('ingredients/update/<int:pk>/', IngredientsUpdateView.as_view(), name='ingredients_update'),
     path('ingredients/delete/<int:pk>/', IngredientsDeleteView.as_view(), name='ingredients_delete'),
+    # ==== Ingredient to Plate ====
+    path("ingredients-search/", ingredients_search, name="ingredients_search"),
+    path('plates/<int:plate_id>/add-ingredient/<int:ingredient_id>/',
+         add_ingredient_to_plate, name='add_ingredient_to_plate'),
 ]

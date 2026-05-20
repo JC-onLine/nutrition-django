@@ -7,14 +7,16 @@ class PlateForm(forms.ModelForm):
         model = Plate
         fields = ["name"]
 
+# Vue Administration Django et Appli Django
 PlateIngredientFormset = forms.modelformset_factory(
     PlateIngredient,
-    fields = ["ingredient", "quantity"],
-    extra = 0,
-    can_delete=True,
+    fields = ["ingredient", "quantity"], # Ajoutez les champs que vous souhaitez afficher
+    extra = 0, # si égale 1, ajoute une ligne préremplie, dans administration Django
+    can_delete=True, # permet de supprimer une ligne avec une checkbox
 )
 
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
         fields = "__all__"
+
