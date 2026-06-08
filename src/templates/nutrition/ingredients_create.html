@@ -7,7 +7,8 @@
     {% csrf_token %}
     {{ form|crispy }}
     <button type="submit" class="btn btn-outline-danger btn-sm">Ajouter un ingrédient</button>
+    <br> </br> <!-- Séparation vertical boutons  -->
     <a href="{% url 'nutrition:ingredients_list' %}"
-       class="btn btn-outline-primary btn-sm">Retour à la liste des ingrédients</a>
+       class="btn btn-outline-primary btn-sm">Retour aux ingrédients</a>
 </form>
 {% endblock %}

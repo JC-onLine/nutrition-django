@@ -1,7 +1,23 @@
 {% extends 'base.html' %}
 {% block title %}{{ title_tab }}{% endblock %}
 {% block title_page %}{{ title1 }}{% endblock %}
-{% block content %}
+{% block content %}        <!-- barre de recherche + Bouton pour créer une nouvelle assiette -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <!-- Bouton Nouvel Assiette / Nouvel Ingrédient -->
+            <div class="col-md-4">
+                <!-- Bouton Nouvel Assiette -->
+                <a href="{% url 'nutrition:plates_create' %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Ajout Assiette
+                </a>
+
+                <!-- Bouton Nouvel Ingrédient -->
+                <a href="{% url 'nutrition:ingredients_create' %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Ajout Ingrédient
+                </a>
+            </div> <!--col-md-4-->
+        </div> <!--d-flex-->
+
     {% if ingredients %}
         <!-- Liste des ingrédients -->
         <div class="row">

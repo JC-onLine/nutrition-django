@@ -51,6 +51,7 @@
 {% endif %}
 <a href="{% url 'nutrition:plates_update_htmx' plate.pk %}"
    class="btn btn-outline-primary btn-sm">Modifier</a>
+<br> </br> <!-- Séparation verticale boutons  -->
 <a href="{% url 'nutrition:plates_list' %}"
-   class="btn btn-outline-primary btn-sm">Retour à la liste</a>
+   class="btn btn-outline-primary btn-sm">Retour aux assiettes</a>
 {% endblock %}
