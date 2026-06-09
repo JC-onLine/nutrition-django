@@ -14,9 +14,11 @@ Profil
         <p>Bienvenue, {{ user.username }}!</p>
         <p>Email: {{ user.email }}</p>
         <p>Date d'inscription: {{ user.date_joined|date:"d M Y" }}</p>
-        <a href="{% url 'account_change_password' %}" class="btn btn-primary btn-sm">Modifier mon mot de passe</a>
-        <!-- Gestion des emails allauth -->
-        <a href="{% url 'account_email' %}" class="btn btn-secondary btn-sm">Gérer mes emails</a>
+        {% if user.username != "demo" %}
+            <a href="{% url 'account_change_password' %}" class="btn btn-primary btn-sm">Modifier mon mot de passe</a>
+            <!-- Gestion des emails allauth -->
+            <a href="{% url 'account_email' %}" class="btn btn-secondary btn-sm">Gérer mes emails</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
