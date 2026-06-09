@@ -155,7 +155,7 @@
             {% endif %}
         </p>
         {% if not request.GET.search %}
-            <a href="" class="btn btn-success btn-lg">
+            <a href="{% url 'nutrition:plates_create' %}" class="btn btn-success btn-lg">
                 <i class="bi bi-plus-circle"></i> Créer ma première assiette
             </a>
         {% endif %}
