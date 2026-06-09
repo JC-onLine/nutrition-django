@@ -37,8 +37,13 @@
 </div>
 <a href="{% url 'nutrition:ingredients_update' ingredient.pk %}"
    class="btn btn-outline-primary btn-sm">Modifier</a>
+<br> </br> <!-- Séparation verticale boutons  -->
 <a href="{% url 'nutrition:ingredients_list' %}"
    class="btn btn-outline-primary btn-sm">Retour aux ingrédients</a>
+<br> </br> <!-- Séparation verticale boutons  -->
 <a href="{% url 'nutrition:plates_list' %}"
    class="btn btn-outline-primary btn-sm">Retour aux assiettes</a>
+<br> </br> <!-- Séparation verticale boutons  -->
+<a href="{% url 'nutrition:ingredients_create' %}" class="btn btn-success">
+    <i class="bi bi-plus-circle"></i> Ajout autre ingrédient</a>
 {% endblock %}
