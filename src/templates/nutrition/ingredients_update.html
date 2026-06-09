@@ -10,7 +10,11 @@
             class="btn btn-outline-danger btn-sm">
             Modifier l'ingrédient
     </button>
+<br> </br> <!-- Séparation verticale boutons  -->
 <a href="{% url 'nutrition:ingredients_list' %}"
-   class="btn btn-outline-primary btn-sm">Retour à la liste des ingrédients</a>
+   class="btn btn-outline-primary btn-sm">Retour aux ingrédients</a>
+<br> </br> <!-- Séparation verticale boutons  -->
+<a href="{% url 'nutrition:plates_list' %}"
+   class="btn btn-outline-primary btn-sm">Retour aux assiettes</a>
 </form>
 {% endblock %}

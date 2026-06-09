@@ -45,7 +45,7 @@ class PlatesListView(LoginRequiredMixin, ListView):
     model = Plate
     template_name = "nutrition/plates_list_main.html"
     context_object_name = "plates"
-    paginate_by = 2
+    paginate_by = 6
 
     def get_queryset(self):
         # Filtre sur l'utilisateur

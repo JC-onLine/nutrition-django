@@ -6,18 +6,8 @@
 <div class="row">
     <div class="col-md-12">
 
-        <!-- Bouton pour créer une nouvelle assiette et barre de recherche -->
+        <!-- barre de recherche + Bouton pour créer une nouvelle assiette -->
         <div class="d-flex justify-content-between align-items-center mb-4">
-
-            <!-- Bouton Nouvel Assiette -->
-            <a href="{% url 'nutrition:plates_create' %}" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Ajout Assiette
-            </a>
-
-            <!-- Bouton Nouvel Ingrédient -->
-            <a href="{% url 'nutrition:ingredients_create' %}" class="btn btn-success">
-                <i class="bi bi-plus-circle"></i> Ajout Ingrédient
-            </a>
 
             <!-- Barre de recherche -->
             <div class="col-md-4">
@@ -40,18 +30,29 @@
                                         HTMX attend 300 ms après a dernière frappe avant dʼenvoyer a requête
                     hx-push-url:        Met à jour ʼURL du navigateur avec les paramètres GET, /plates/list/?search=pizza
                     -->
-                </div>
+                </div> <!--input-group-->
                     <!-- Suppression du bouton de recherche, car dynamique à la saisie clavier avec HTMX
                     <button class="btn btn-outline-secondary" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
                     -->
-            </div>
-        </div>
+                <br> <!-- Séparation recherche et boutons  -->
+                <!-- Bouton Nouvel Assiette -->
+                <a href="{% url 'nutrition:plates_create' %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Ajout Assiette
+                </a>
+
+                <!-- Bouton Nouvel Ingrédient -->
+                <a href="{% url 'nutrition:ingredients_create' %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Ajout Ingrédient
+                </a>
+            </div> <!--col-md-4-->
+        </div> <!--d-flex-->
+
         <!-- Insertion liste des assiettes avec l'id HTML -->
         <div id="plates-container">
             {% include 'nutrition/partials/plates_list.html' %}
-        </div>
-    </div>
-</div>
+        </div> <!--plates-container-->
+    </div> <!--col-md-12-->
+</div> <!--raw-->
 {% endblock %}
