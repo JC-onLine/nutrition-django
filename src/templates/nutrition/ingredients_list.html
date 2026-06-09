@@ -1,7 +1,23 @@
 {% extends 'base.html' %}
 {% block title %}{{ title_tab }}{% endblock %}
 {% block title_page %}{{ title1 }}{% endblock %}
-{% block content %}
+{% block content %}        <!-- barre de recherche + Bouton pour créer une nouvelle assiette -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <!-- Bouton Nouvel Assiette / Nouvel Ingrédient -->
+            <div class="col-md-4">
+                <!-- Bouton Nouvel Assiette -->
+                <a href="{% url 'nutrition:plates_create' %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Ajout Assiette
+                </a>
+
+                <!-- Bouton Nouvel Ingrédient -->
+                <a href="{% url 'nutrition:ingredients_create' %}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Ajout Ingrédient
+                </a>
+            </div> <!--col-md-4-->
+        </div> <!--d-flex-->
+
     {% if ingredients %}
         <!-- Liste des ingrédients -->
         <div class="row">
@@ -15,47 +31,21 @@
                         </small>
                     </div>
                     <div class="card-body">
-                        <!-- Informations nutritionnelles -->
-                        {% if ingredient.ingredients.exists %}
-                            {% with nutritional_profile=ingredient.nutritional_profile %}
-                                <div class="row text-center mb-3">
-                                    <div class="col-6">
-                                        <div class="border rounded p-2 bg-light">
-                                            <strong class="text-primary">{{ nutritional_profile.total_calories }}</strong>
-                                            <br><small class="text-muted">kcal</small>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="border rounded p-2 bg-light">
-                                            <strong class="text-info">{{ ingredient.ingredients.count }}</strong>
-                                            <!-- ingredients: relation inverse de PlateIngredient -->
-                                            <br><small class="text-muted">ingrédient{{ ingredient.ingredients.count|pluralize }}</small>
-                                            <!-- pluralize: peut être surchargé avec un autre suffixe :aux, voir doc -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Détail des macronutriments -->
-                                <div class="row text-center mb-3">
-                                    <div class="col-4">
-                                        <small class="text-success fw-bold">{{ nutritional_profile.total_protein }}g</small>
-                                        <br><small class="text-muted">Protéines</small>
-                                    </div>
-                                    <div class="col-4">
-                                        <small class="text-warning fw-bold">{{ nutritional_profile.total_carbs }}g</small>
-                                        <br><small class="text-muted">Glucides</small>
-                                    </div>
-                                    <div class="col-4">
-                                        <small class="text-danger fw-bold">{{ nutritional_profile.total_fats }}g</small>
-                                        <br><small class="text-muted">Lipides</small>
-                                    </div>
-                                </div>
-                            {% endwith %}
-
-                        {% else %}
-                        <p class="text-muted small">Aucun ingrédient ajouté</p>
-                        {% endif %}
-
+                        <!-- Détail des macronutriments -->
+                        <div class="row text-center mb-3">
+                            <div class="col-4">
+                                <small class="text-success fw-bold">{{ ingredient.protein_per_100g }} %g</small>
+                                <br><small class="text-muted">Protéines</small>
+                            </div>
+                            <div class="col-4">
+                                <small class="text-warning fw-bold">{{ ingredient.carbs_per_100g }} %g</small>
+                                <br><small class="text-muted">Glucides</small>
+                            </div>
+                            <div class="col-4">
+                                <small class="text-danger fw-bold">{{ ingredient.fats_per_100g }} %g</small>
+                                <br><small class="text-muted">Lipides</small>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer bg-transparent">
                         <div class="btn-group w-100" role="group">

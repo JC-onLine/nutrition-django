@@ -127,6 +127,8 @@
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-danger">Modifier</button>
                 <a href="{{ plate.get_absolute_url }}" class="btn btn-secondary">Annuler</a>
+                <a href="{% url 'nutrition:plates_list' %}"
+                   class="btn btn-outline-primary btn-sm">Retour aux assiettes</a>
             </div>
         </form>
     </div>
